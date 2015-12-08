@@ -26,7 +26,7 @@ var CurrencyConverter = {
                 self.convert(rate, $('#baseInput').val());
             });
 
-            $('#baseInput').on('keyup', function() {
+            $('#baseInput').on('keyup input', function() {
                 self.convert(rate, $(this).val());
             });
         });
