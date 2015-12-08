@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Currency Converter</title>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-6 col-md-offset-3 me-form--currency">
+			<h1 class="text-center">Currency Converter</h1>
+			<!-- Currency Converter Form -->
+			<form action="" role="form" class="row">
+				<div class="col-sm-6 col-xs-12">
+					<div class="form-group col-sm-12">
+						<label for="baseList">From:</label>
+						<select name="baseList" id="baseList" class="form-control"></select>
+					</div>
+					<div class="form-group col-sm-12">
+						<input type="number" name="baseInput" value="" class="form-control" id="baseInput">
+					</div>
+				</div>
+
+				<div class="col-sm-6 col-xs-12">
+					<div class="form-group col-sm-12">
+						<label for="targetList">To:</label>
+						<select name="targetList" id="targetList" class="form-control"></select>
+					</div>
+					<div class="form-group col-sm-12">
+						<input type="text" name="targetOutput" value="" class="form-control" id="targetOutput" readonly="readonly">
+					</div>
+				</div>
+			</form> <!-- End Form -->
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="bngMoney.js"></script>
+	<script>
+	$('.me-form--currency').bngMoney({appId: '48ec835ee7bf46f48d0a937330e9f462'});
+	</script>
+</body>
+</html>

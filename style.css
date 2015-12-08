@@ -1,0 +1,9 @@
+.me-warns {
+	color: red;
+}
+.currency-info span {
+	font-style: italic;
+}
+.currency-info strong {
+	text-decoration: underline;
+}
