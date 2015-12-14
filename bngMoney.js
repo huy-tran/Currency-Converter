@@ -1,45 +1,44 @@
 var CurrencyConverter = {
     init: function(elem, options) {
-        var self = this;
-        self.elem = elem;
-        self.$elem = $(elem);
+        var _this = this;
+        _this.elem = elem;
+        _this.$elem = $(elem);
 
-        self.settings = $.extend({}, self.defaults, options);
+        _this.settings = $.extend({}, _this.defaults, options);
 
-        self.writeOptions();
+        _this.writeOptions();
 
-        if (self.settings.appId !== null && typeof self.settings.appId === 'string') {
-            self.promiseObj = self._makeRequest(self.settings.appId);
+        if (_this.settings.appId !== null && typeof _this.settings.appId === 'string') {
+            _this.promiseObj = _this._makeRequest(_this.settings.appId);
         } else {
-            self.$elem.append("<em class='me-warns'>Missing App Id - Please provide your Open Exchange Rates App Id</em>")
+            _this.$elem.append("<em class='me-warns'>Missing App Id - Please provide your Open Exchange Rates App Id</em>")
         }
 
-        self.promiseObj.done(function(result){
+        _this.promiseObj.done(function(result, xhr){
             var rate, output;
 
-            rate = self.getRate(result.rates);
+            rate = _this.getRate(result.rates);
 
-            self.displayInfo(result);
+            _this.displayInfo(result);
 
-            self.$elem.on('change', 'select', function() {
-                rate = self.getRate(result.rates);
-                self.convert(rate, $('#baseInput').val());
+            _this.$elem.on('change', 'select', function() {
+                rate = _this.getRate(result.rates);
+                _this.convert(rate, $('#baseInput').val());
             });
 
             $('#baseInput').on('keyup input', function() {
-                self.convert(rate, $(this).val());
+                _this.convert(rate, $(this).val());
             });
         });
 
-
-        return self;
+        return _this;
     },
     defaults: {
         appId: null,
         currencies: null
     },
     writeOptions: function(){
-        var self = this;
+        var _this = this;
         $.ajax({
             url: 'https://openexchangerates.org/api/currencies.json',
             type: 'GET',
@@ -49,8 +48,8 @@ var CurrencyConverter = {
             var frag = '';
 
             $.each(result, function(abbr, fullName) {
-                if (self.settings.currencies !== null) {
-                    if (self.settings.currencies.indexOf(abbr) > -1) {
+                if (_this.settings.currencies !== null) {
+                    if (_this.settings.currencies.indexOf(abbr) > -1) {
                         frag += "<option value='" + abbr + "'>" + fullName + "</option>";
                     }
                 } else {
@@ -58,16 +57,16 @@ var CurrencyConverter = {
                 }
             });
 
-            self.$elem.find('select').append(frag);
+            _this.$elem.find('select').append(frag);
             $('#targetList').find('option[value=USD]').attr('selected', 'selected');
             $('#baseList').find('option[value=AUD]').attr('selected', 'selected');
         })
         .fail(function() {
-            self.$elem.append("<em class='me-warns'>Something went wrong! Sorry we can't help you now, please coming back later</em>");
+            _this.$elem.append("<em class='me-warns'>Something went wrong! Sorry we can't help you now, please coming back later</em>");
         }); 
     },
     _makeRequest: function(id) {
-        var self = this,
+        var _this = this,
             promise = $.Deferred();
         $.ajax({
             url: 'https://openexchangerates.org/api/latest.json?app_id=' + id,
@@ -75,8 +74,8 @@ var CurrencyConverter = {
             success: function(result){
                 promise.resolve(result);
             },
-            error: function(result){
-                self.$elem.append("<em class='me-warns'>Something went wrong! Sorry we can't help you now, please coming back later</em>");
+            error: function(){
+                _this.$elem.append("<em class='me-warns'>Something went wrong! Sorry we can't help you now, please coming back later</em>");
             }
         });
         return promise;
